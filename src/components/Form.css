@@ -1,0 +1,37 @@
+.booking{
+  font-family: montserrat, sans-serif;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 100vh;
+}
+.section-center {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.booking-form {
+    max-width: 642px;
+    width: 100%;
+    margin: auto;
+}
+.form-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+h1 {
+    font-size: 58px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #ffc001;
+    margin: 0;
+}
+form {
+    background-color: #101113;
+    padding: 30px 20px;
+    border-radius: 3px;
+}
