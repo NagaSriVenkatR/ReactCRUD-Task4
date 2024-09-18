@@ -35,3 +35,10 @@ form {
     padding: 30px 20px;
     border-radius: 3px;
 }
+.form-label{
+    color: white;
+    font-size: 14px !important;
+}
+option{
+    color: #101113;
+}
