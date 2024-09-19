@@ -17,7 +17,8 @@
 .booking-form {
     max-width: 642px;
     width: 100%;
-    margin: auto;
+    margin: auto !important;
+    margin-top:20px;
 }
 .form-header {
     text-align: center;
@@ -41,4 +42,43 @@ form {
 }
 option{
     color: #101113;
+}
+@media screen and (min-width : 1024px) and (max-width : 1024px) {
+   .select-arrow-hour{
+    right: 45.5% !important;
+    } 
+    .select-arrow-min{
+    right: 34% !important;
+    } 
+    .select-arrow-am{
+    right: 22.5% !important;
+    } 
+}
+@media screen and (min-width : 768px) and (max-width : 768px) {
+   .select-arrow-hour{
+    right: 44.5% !important;
+    } 
+    .select-arrow-min{
+    right: 29% !important;
+    } 
+    .select-arrow-am{
+    right: 13.5% !important;
+    } 
+}
+@media screen and (min-width : 425px) {
+   .select-arrow-hour{
+    right: 10% !important;
+    bottom: 28% !important;
+    } 
+    .select-arrow-min{
+    right: 10% !important;
+    bottom: 19.5% !important;
+    } 
+    .select-arrow-am{
+    right: 10% !important;
+    bottom: 10.5% !important;
+    } 
+    .booking-form{
+        margin-top: 20px !important;
+    }
 }
