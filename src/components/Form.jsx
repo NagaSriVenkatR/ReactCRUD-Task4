@@ -1,48 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Form.css';
 import { FaLongArrowAltDown } from "react-icons/fa";
 function Form() {
   const [formData, setFormData] = useState({
     fullName: "",
-    phoneNumber: "",
     email: "",
-    userName: "",
-    password: "",
-    confirmPassword: "",
+    phoneNumber: "",
+    pickup: "",
+    destination: "",
+    pickupDate : "",
+    hour:"",
+    min:"",
+    clock:"",
   });
   const [errors, setErrors] = useState({
     fullName: "",
-    phoneNumber: "",
     email: "",
-    password: "",
-    confirmPassword: "",
+    phoneNumber: "",
+    pickup: "",
+    destination: "",
+    pickupDate: "",
+    hour: "",
+    min: "",
+    clock: "",
   });
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (selectedUser) {
-      setFormData(selectedUser);
-    }
-  }, [selectedUser]);
-  const handleReset = () => {
-    setFormData({
-      fullName: "",
-      phoneNumber: "",
-      email: "",
-      userName: "",
-      password: "",
-      confirmPassword: "",
-    });
-    setErrors({
-      fullName: "",
-      phoneNumber: "",
-      email: "",
-      userName: "",
-      password: "",
-      confirmPassword: "",
-    });
-    setSelectedUser(null);
-  };
   const handleBlur = (event) => {
     const { name, value } = event.target;
     let validateErrors = { ...errors };
@@ -61,32 +43,17 @@ function Form() {
   };
   let emailPattern =
     /^([a-zA-Z0-9]+)@([a-zA-Z0-9-]+).([a-zA-Z]+).([a-zA-Z]{2,20})$/;
-  let upperCasePattern = /[A-Z]/;
-  let lowerCasePattern = /[a-z]/;
-  let numberPattern = /[0-9]/;
-  let specialCharacterPattern = /[~!@#%&()$^_?]/;
-  let minlengthCharacterPattern = /^.{8,16}$/;
-  let phonenumberPattern = /^([0-9]{10})$/;
+  let phonenumberPattern = /^([0-9]{10,10})$/
   const validateForm = () => {
     let valid = true;
     let newErrors = [];
     if (!formData.fullName) {
-      newErrors.fullName = "Full Name is required";
+      newErrors.fullName = "Name is required";
       valid = false;
     } else {
       newErrors.fullName = " ";
     }
-    if (!formData.phoneNumber) {
-      newErrors.phoneNumber = "Mobile Number is required";
-      valid = false;
-    } else {
-      if (!phonenumberPattern.test(formData.phoneNumber)) {
-        newErrors.phoneNumber = "Mobile number should be 10 digits";
-        valid = false;
-      } else {
-        newErrors.phoneNumber = " ";
-      }
-    }
+
     if (!formData.email) {
       newErrors.email = "Email is required";
       valid = false;
@@ -98,38 +65,52 @@ function Form() {
         newErrors.email = " ";
       }
     }
-    if (!formData.password) {
-      newErrors.password = "Password is required";
+    if(!formData.phoneNumber){
+      newErrors.phoneNumber = "Phonenumber is required";
       valid = false;
-    } else {
-      if (!minlengthCharacterPattern.test(formData.password)) {
-        newErrors.password = "password must be between 8 to 16 characters";
+    }else{
+      if(!phonenumberPattern.test(formData.phoneNumber)){
+        newErrors.phoneNumber = "Enter valid phonenumber";
         valid = false;
-      } else if (!lowerCasePattern.test(formData.password)) {
-        newErrors.password = "At least 1 lowercase character";
-        valid = false;
-      } else if (!numberPattern.test(formData.password)) {
-        newErrors.password = "At least 1 number";
-        valid = false;
-      } else if (!specialCharacterPattern.test(formData.password)) {
-        newErrors.password = "At least 1 special character";
-        valid = false;
-      } else if (!upperCasePattern.test(formData.password)) {
-        newErrors.password = "At least 1 uppercase character";
-        valid = false;
-      } else {
-        newErrors.password = " ";
+      }else{
+        newErrors.phoneNumber = "";
       }
     }
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = "Confirm password is required";
-      valid = false;
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword =
-        "Check your confirm password and password should be same";
+    if (!formData.pickup) {
+      newErrors.pickup = "Pickup Location is required";
       valid = false;
     } else {
-      newErrors.confirmPassword = "";
+      newErrors.pickup = " ";
+    }
+    if (!formData.destination) {
+      newErrors.destination = "Destination location is required";
+      valid = false;
+    } else {
+      newErrors.destination = "";
+    }
+    if (!formData.pickupDate) {
+      newErrors.pickupDate = "Pickup date is required";
+      valid = false;
+    } else {
+      newErrors.pickupDate = "";
+    }
+    if (!formData.hour) {
+      newErrors.hour = "Hour is required";
+      valid = false;
+    } else {
+      newErrors.hour = "";
+    }
+    if (!formData.min) {
+      newErrors.min = "Min is required";
+      valid = false;
+    } else {
+      newErrors.min = "";
+    }
+    if (!formData.clock) {
+      newErrors.clock = "Clock is required";
+      valid = false;
+    } else {
+      newErrors.clock = "";
     }
     setErrors(newErrors);
     return valid;
@@ -137,35 +118,7 @@ function Form() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (validateForm()) {
-      if (selectedUser) {
-        // Update existing user
-        setUsers(
-          users.map((user) =>
-            user.email === selectedUser.email ? formData : user
-          )
-        );
-        setSelectedUser(null); // Clear selection after update
-      } else {
-        // Add new user
-        setUsers([...users, formData]);
-      }
-      setFormData({
-        fullName: "",
-        phoneNumber: "",
-        email: "",
-        userName: "",
-        password: "",
-        confirmPassword: "",
-      });
-      setErrors({
-        fullName: "",
-        phoneNumber: "",
-        email: "",
-        userName: "",
-        password: "",
-        confirmPassword: "",
-      });
-      navigate("/users");
+      console.log("Form submitted successfully", formData);
     }
   };
   return (
@@ -178,7 +131,7 @@ function Form() {
                 <h1>BOOK A CAR</h1>
               </div>
               <div>
-                <form action="">
+                <form action="" onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-sm-6">
                       <div className="form-group text-start mb-3">
@@ -186,8 +139,13 @@ function Form() {
                         <input
                           className="form-control"
                           type="text"
+                          name="fullName"
                           placeholder="Enter your name"
+                          value={formData.fullName}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         />
+                        <span className="text-danger">{errors.fullName}</span>
                       </div>
                     </div>
                     <div className="col-sm-6">
@@ -196,8 +154,13 @@ function Form() {
                         <input
                           className="form-control"
                           type="email"
+                          name="email"
                           placeholder="Enter your email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         />
+                        <span className="text-danger">{errors.email}</span>
                       </div>
                     </div>
                   </div>
@@ -206,24 +169,39 @@ function Form() {
                     <input
                       className="form-control"
                       type="tel"
+                      name="phoneNumber"
                       placeholder="Enter your phone number"
+                      value={formData.phoneNumber}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
+                    <span className="text-danger">{errors.phoneNumber}</span>
                   </div>
                   <div className="form-group text-start mb-3">
                     <span className="form-label">PICKUP</span>
                     <input
                       className="form-control"
                       type="text"
+                      name="pickup"
                       placeholder="Enter your pickup location"
+                      value={formData.pickup}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
+                    <span className="text-danger">{errors.pickup}</span>
                   </div>
                   <div className="form-group text-start mb-3">
                     <span className="form-label">DESTINATION</span>
                     <input
                       className="form-control"
                       type="text"
+                      name="destination"
                       placeholder="Enter your destination location"
+                      value={formData.destination}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
                     />
+                    <span className="text-danger">{errors.destination}</span>
                   </div>
                   <div className="row">
                     <div className="col-sm-5">
@@ -232,8 +210,13 @@ function Form() {
                         <input
                           className="form-control"
                           type="date"
+                          name="pickupDate"
                           placeholder="Enter your pickup date"
+                          value={formData.pickupDate}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         />
+                        <span className="text-danger">{errors.pickupDate}</span>
                       </div>
                     </div>
                     <div className="col-sm-7">
@@ -241,7 +224,15 @@ function Form() {
                         <div className="col-sm-4">
                           <div className="form-group text-start mb-3">
                             <span className="form-label">HOUR</span>
-                            <select className="form-control" name="" id="">
+                            <select
+                              className="form-control"
+                              name="hour"
+                              id=""
+                              value={formData.hour}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              <option value=""></option>
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -263,12 +254,21 @@ function Form() {
                                 bottom: "16.5%",
                               }}
                             />
+                            <span className="text-danger">{errors.hour}</span>
                           </div>
                         </div>
                         <div className="col-sm-4">
                           <div className="form-group text-start mb-3">
                             <span className="form-label">MIN</span>
-                            <select className="form-control" name="" id="">
+                            <select
+                              className="form-control"
+                              name="min"
+                              id=""
+                              value={formData.min}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              <option value=""></option>
                               <option value="05">05</option>
                               <option value="10">10</option>
                               <option value="15">15</option>
@@ -289,12 +289,21 @@ function Form() {
                                 bottom: "16.5%",
                               }}
                             />
+                            <span className="text-danger">{errors.min}</span>
                           </div>
                         </div>
                         <div className="col-sm-4">
                           <div className="form-group text-start mb-3">
                             <span className="form-label">AM/PM</span>
-                            <select className="form-control" name="" id="">
+                            <select
+                              className="form-control"
+                              name="clock"
+                              id=""
+                              value={formData.clock}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            >
+                              <option value=""></option>
                               <option value="AM">AM</option>
                               <option value="PM">PM</option>
                             </select>
@@ -306,13 +315,18 @@ function Form() {
                                 bottom: "16.5%",
                               }}
                             />
+                            <span className='text-danger'>{errors.clock}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="form-btn">
-                    <input className='form-control bg-warning fw-bold' type="button" value="BOOK NOW" />
+                    <input
+                      className="form-control bg-warning fw-bold"
+                      type="submit"
+                      value="BOOK NOW"
+                    />
                   </div>
                 </form>
               </div>

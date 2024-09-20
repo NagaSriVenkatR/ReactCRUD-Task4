@@ -6,6 +6,12 @@
     position: relative;
     height: 100vh;
 }
+.text-danger{
+    position: absolute !important;
+  display: block !important;
+  font-size: 11px !important;
+  color: red;
+}
 .section-center {
     position: absolute;
     top: 50%;
@@ -19,6 +25,7 @@
     width: 100%;
     margin: auto !important;
     margin-top:20px;
+    /* height: fit-content; */
 }
 .form-header {
     text-align: center;
@@ -65,7 +72,13 @@ option{
     right: 13.5% !important;
     } 
 }
-@media screen and (min-width : 425px) {
+@media screen and (max-width : 475px) {
+    .booking{
+        height: 150vh !important;
+    }
+    h1{
+        font-size: 30px !important;
+    }
    .select-arrow-hour{
     right: 10% !important;
     bottom: 28% !important;
@@ -78,7 +91,5 @@ option{
     right: 10% !important;
     bottom: 10.5% !important;
     } 
-    .booking-form{
-        margin-top: 20px !important;
-    }
+    
 }
