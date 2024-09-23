@@ -21,7 +21,7 @@
     transform: translateY(-50%);
 }
 .booking-form {
-    max-width: 642px;
+    max-width: 750px;
     width: 100%;
     margin: auto !important;
     margin-top:20px;
@@ -50,46 +50,71 @@ form {
 option{
     color: #101113;
 }
-@media screen and (min-width : 1024px) and (max-width : 1024px) {
+.form-control{
+    border: none !important;
+}
+@media screen and (min-width : 1440px) and (max-width : 1440px) {
    .select-arrow-hour{
-    right: 45.5% !important;
+    right: 46% !important;
     } 
     .select-arrow-min{
-    right: 34% !important;
+    right: 36.5% !important;
     } 
     .select-arrow-am{
-    right: 22.5% !important;
+    right: 27% !important;
     } 
 }
-@media screen and (min-width : 768px) and (max-width : 768px) {
+@media screen and (min-width : 1024px) and (max-width : 1024px) {
    .select-arrow-hour{
     right: 44.5% !important;
     } 
     .select-arrow-min{
-    right: 29% !important;
+    right: 31% !important;
     } 
     .select-arrow-am{
-    right: 13.5% !important;
+    right: 17% !important;
     } 
+}
+@media screen and (min-width : 768px) and (max-width : 768px) {
+    
+   .select-arrow-hour{
+    right: 43% !important;
+    bottom: 24.5% !important;
+    } 
+    .select-arrow-min{
+    right: 25.8% !important;
+    bottom: 24.5% !important;
+    } 
+    .select-arrow-am{
+    right: 8.5% !important;
+    bottom: 24.5% !important;
+    } 
+     h1{
+        font-size: 40px !important;
+        margin-bottom: 0px !important;
+    }
+    .form-header{
+        margin-bottom: 0px !important;
+    }
 }
 @media screen and (max-width : 475px) {
     .booking{
-        height: 150vh !important;
+        height: 160vh !important;
     }
     h1{
         font-size: 30px !important;
     }
    .select-arrow-hour{
     right: 10% !important;
-    bottom: 28% !important;
+    bottom: 33% !important;
     } 
     .select-arrow-min{
     right: 10% !important;
-    bottom: 19.5% !important;
+    bottom: 24.5% !important;
     } 
     .select-arrow-am{
     right: 10% !important;
-    bottom: 10.5% !important;
+    bottom: 16% !important;
     } 
     
 }

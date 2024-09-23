@@ -1,8 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Form.css';
 import { FaLongArrowAltDown } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 function Form() {
+  const createUserAPI =
+    "https://6683c44d56e7503d1ade07d4.mockapi.io/userData/customerdata";
+   useEffect(() => {
+     fetch(createUserAPI)
+       .then((response) => response.json())
+       .then((data) => setCustomers(data))
+       .catch((error) => console.error("Error fetching data:", error));
+   }, []);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -12,7 +21,7 @@ function Form() {
     pickupDate : "",
     hour:"",
     min:"",
-    clock:"",
+    Meridian:"",
   });
   const [errors, setErrors] = useState({
     fullName: "",
@@ -23,8 +32,10 @@ function Form() {
     pickupDate: "",
     hour: "",
     min: "",
-    clock: "",
+    Meridian: "",
   });
+   const [customers, setCustomers] = useState([]);
+   const [editingCustomerId, setEditingCustomerId] = useState(null); 
   const handleBlur = (event) => {
     const { name, value } = event.target;
     let validateErrors = { ...errors };
@@ -106,21 +117,108 @@ function Form() {
     } else {
       newErrors.min = "";
     }
-    if (!formData.clock) {
-      newErrors.clock = "Clock is required";
+    if (!formData.Meridian) {
+      newErrors.Meridian = "Meridian is required";
       valid = false;
     } else {
-      newErrors.clock = "";
+      newErrors.Meridian = "";
     }
     setErrors(newErrors);
     return valid;
   };
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     if (validateForm()) {
       console.log("Form submitted successfully", formData);
+      if (editingCustomerId) {
+        fetch(`${createUserAPI}/${editingCustomerId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((updatedCustomer) => {
+            setCustomers(
+              customers.map((customer) =>
+                customer.id === editingCustomerId ? updatedCustomer : customer
+              )
+            );
+            setEditingCustomerId(null);
+            setFormData({
+              fullName: "",
+              email: "",
+              phoneNumber: "",
+              pickup: "",
+              destination: "",
+              pickupDate: "",
+              hour: "",
+              min: "",
+              Meridian: "",
+            });
+          })
+          .catch((error) => console.error("Error updating customer:", error));
+      } else {
+        fetch(createUserAPI, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log("Successfully book the cab");
+            } else {
+              console.log("Faled to book the cab")
+            }
+          })
+          .then((newCustomer) => {
+            setCustomers([...customers, newCustomer]);
+            setFormData({
+              fullName: "",
+              email: "",
+              phoneNumber: "",
+              pickup: "",
+              destination: "",
+              pickupDate: "",
+              hour: "",
+              min: "",
+              Meridian: "",
+            });
+          })
+          navigate("/customers")
+          .catch((error) => console.error("Error creating customer:", error));
+      }
     }
   };
+   const handleReset = () => {
+     setFormData({
+       fullName: "",
+       email: "",
+       phoneNumber: "",
+       pickup: "",
+       destination: "",
+       pickupDate: "",
+       hour: "",
+       min: "",
+       Meridian: "",
+     });
+     setErrors({
+       fullName: "",
+       email: "",
+       phoneNumber: "",
+       pickup: "",
+       destination: "",
+       pickupDate: "",
+       hour: "",
+       min: "",
+       Meridian: "",
+     });
+     
+   };
   return (
     <div className="booking">
       <div className="section-center">
@@ -130,7 +228,7 @@ function Form() {
               <div className="form-header">
                 <h1>BOOK A CAR</h1>
               </div>
-              <div>
+              <div className=''>
                 <form action="" onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-sm-6">
@@ -250,8 +348,8 @@ function Form() {
                               className="select-arrow-hour"
                               style={{
                                 position: "absolute",
-                                right: "47%",
-                                bottom: "16.5%",
+                                right: "46%",
+                                bottom: "23.5%",
                               }}
                             />
                             <span className="text-danger">{errors.hour}</span>
@@ -285,8 +383,8 @@ function Form() {
                               className="select-arrow-min"
                               style={{
                                 position: "absolute",
-                                right: "39%",
-                                bottom: "16.5%",
+                                right: "37%",
+                                bottom: "23.5%",
                               }}
                             />
                             <span className="text-danger">{errors.min}</span>
@@ -294,12 +392,12 @@ function Form() {
                         </div>
                         <div className="col-sm-4">
                           <div className="form-group text-start mb-3">
-                            <span className="form-label">AM/PM</span>
+                            <span className="form-label">Meridian</span>
                             <select
                               className="form-control"
-                              name="clock"
+                              name="Meridian"
                               id=""
-                              value={formData.clock}
+                              value={formData.Meridian}
                               onChange={handleChange}
                               onBlur={handleBlur}
                             >
@@ -311,22 +409,31 @@ function Form() {
                               className="select-arrow-am"
                               style={{
                                 position: "absolute",
-                                right: "31.5%",
-                                bottom: "16.5%",
+                                right: "28%",
+                                bottom: "23.5%",
                               }}
                             />
-                            <span className='text-danger'>{errors.clock}</span>
+                            <span className="text-danger">{errors.Meridian}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="form-btn">
-                    <input
-                      className="form-control bg-warning fw-bold"
+                  <div className="form-btn mb-3">
+                    <button
+                      className="form-control btn btn-warning fw-bold"
                       type="submit"
                       value="BOOK NOW"
-                    />
+                    > BOOK NOW</button>
+                    
+                  </div>
+                  <div className="form-btn">
+                    <button
+                      className="form-control btn btn-danger fw-bold"
+                      type="Reset"
+                      value="CANCEL NOW"
+                      onClick={handleReset}
+                    >CANCEL NOW</button>
                   </div>
                 </form>
               </div>
