@@ -2,16 +2,28 @@ import React, { useEffect, useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Form.css';
 import { FaLongArrowAltDown } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 function Form() {
   const createUserAPI =
     "https://6683c44d56e7503d1ade07d4.mockapi.io/userData/customerdata";
-   useEffect(() => {
-     fetch(createUserAPI)
-       .then((response) => response.json())
-       .then((data) => setCustomers(data))
-       .catch((error) => console.error("Error fetching data:", error));
-   }, []);
+    const location = useLocation();
+    const customerData = location.state?.customer;
+  useEffect(() => {
+    if (customerData) {
+      setFormData({
+        fullName: customerData.fullName || "",
+        email: customerData.email || "",
+        phoneNumber: customerData.phoneNumber || "",
+        pickup: customerData.pickup || "",
+        destination: customerData.destination || "",
+        pickupDate: customerData.pickupDate || "",
+        hour: customerData.hour || "",
+        min: customerData.min || "",
+        Meridian: customerData.Meridian || "",
+      });
+      setEditingCustomerId(customerData.id);
+    }
+  }, [customerData]);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -159,7 +171,10 @@ function Form() {
               Meridian: "",
             });
           })
-          .catch((error) => console.error("Error updating customer:", error));
+          .catch((error) =>
+            console.error("Error updating customer:", error)
+          );
+          navigate("/customers");
       } else {
         fetch(createUserAPI, {
           method: "POST",
@@ -189,8 +204,10 @@ function Form() {
               Meridian: "",
             });
           })
-          navigate("/customers")
-          .catch((error) => console.error("Error creating customer:", error));
+          .catch((error) => { 
+            console.error("Error creating customer:", error)
+          });
+          navigate("/customers");
       }
     }
   };
@@ -367,6 +384,7 @@ function Form() {
                               onBlur={handleBlur}
                             >
                               <option value=""></option>
+                              <option value="00">00</option>
                               <option value="05">05</option>
                               <option value="10">10</option>
                               <option value="15">15</option>
