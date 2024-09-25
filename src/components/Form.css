@@ -53,6 +53,18 @@ option{
 .form-control{
     border: none !important;
 }
+.fixed-table-toolbar{
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    line-height: 34px;
+}
+.float-left{
+    float: left !important;
+}
+.float-right{
+    float: right !important;
+}
 @media screen and (min-width : 1440px) and (max-width : 1440px) {
    .select-arrow-hour{
     right: 46% !important;

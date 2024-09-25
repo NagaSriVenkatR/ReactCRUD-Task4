@@ -439,7 +439,7 @@ function Form() {
                   </div>
                   <div className="form-btn mb-3">
                     <button
-                      className="form-control btn btn-warning fw-bold"
+                      className="form-control btn btn-warning bg-warning fw-bold"
                       type="submit"
                       value="BOOK NOW"
                     > BOOK NOW</button>
@@ -447,7 +447,7 @@ function Form() {
                   </div>
                   <div className="form-btn">
                     <button
-                      className="form-control btn btn-danger fw-bold"
+                      className="form-control btn btn-danger bg-danger fw-bold"
                       type="Reset"
                       value="CANCEL NOW"
                       onClick={handleReset}
